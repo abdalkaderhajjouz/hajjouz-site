@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="ru" dir="ltr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Абдулкадер Хажжуз, переводчик</title>
+<meta name="description" content="Перевод документов, видео и аудио на любые языки. Работаю с бюро переводов и частными клиентами. Telegram @Abdulkaderhz, WhatsApp, MAX: +7 969 348-33-31">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=Onest:wght@400;500;600;700&family=Unbounded:wght@600;800&display=swap" rel="stylesheet">
+<style>
+/* Layout idea: a product-style page. Floating glass nav with a language
+   switch (RU / EN / AR, Arabic flips the page to RTL), a hero that opens
+   with a live chat, bento grid for services, messenger cards for contact.
+   Yellow is the only loud colour. */
+:root{
+  --bg:#f2f2ee;
+  --card:#ffffff;
+  --ink:#0e0f14;
+  --muted:#62646f;
+  --line:#e1e1da;
+  --accent:#ffd60a;
+  --on-accent:#0e0f14;
+  --inv:#0e0f14;
+  --on-inv:#f2f2ee;
+  --on-inv-muted:#a9abb6;
+  --ok:#17a34a;
+  --display:"Unbounded","IBM Plex Sans Arabic","Arial Black",system-ui,sans-serif;
+  --body:"Onest","IBM Plex Sans Arabic","Segoe UI",system-ui,-apple-system,Arial,sans-serif;
+  --r:28px;
+  --tight:-.03em;
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --bg:#0a0b0f;--card:#15171e;--ink:#f2f2ee;--muted:#9a9daa;--line:#272a35;
+    --accent:#ffd60a;--on-accent:#0e0f14;--inv:#f2f2ee;--on-inv:#0e0f14;--on-inv-muted:#5d606b;--ok:#34c36b;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0a0b0f;--card:#15171e;--ink:#f2f2ee;--muted:#9a9daa;--line:#272a35;
+  --accent:#ffd60a;--on-accent:#0e0f14;--inv:#f2f2ee;--on-inv:#0e0f14;--on-inv-muted:#5d606b;--ok:#34c36b;
+  color-scheme:dark;
+}
+/* Arabic: its own typeface, no negative tracking (it breaks letter joining) */
+html[lang="ar"]{
+  --display:"IBM Plex Sans Arabic","Segoe UI",Tahoma,sans-serif;
+  --body:"IBM Plex Sans Arabic","Segoe UI",Tahoma,sans-serif;
+  --tight:0;
+}
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:90px}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.5;-webkit-font-smoothing:antialiased;padding-bottom:40px}
+html[lang="ar"] body{line-height:1.7}
+a{color:inherit}
+h1,h2,h3,p{margin:0}
+:focus-visible{outline:3px solid var(--accent);outline-offset:3px;border-radius:8px}
+.wrap{width:min(1180px,100% - 32px);margin-inline:auto}
+.ltr{direction:ltr;unicode-bidi:isolate;display:inline-block}
+
+/* nav */
+.nav{position:sticky;top:12px;z-index:20;margin-top:12px;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px;padding-inline-start:22px;border:1px solid var(--line);border-radius:999px;background:color-mix(in srgb,var(--card) 78%,transparent);-webkit-backdrop-filter:blur(16px) saturate(1.4);backdrop-filter:blur(16px) saturate(1.4)}
+.brand{font-weight:700;text-decoration:none;white-space:nowrap}
+.links{display:flex;gap:26px;font-size:.95rem;color:var(--muted)}
+.links a{text-decoration:none;transition:color .15s}
+.links a:hover{color:var(--ink)}
+.nav-end{display:flex;align-items:center;gap:8px}
+.lang{display:flex;padding:3px;border-radius:999px;background:var(--bg);border:1px solid var(--line);direction:ltr}
+.lang button{min-width:38px;padding:.38em .6em;border:0;border-radius:999px;background:transparent;color:var(--muted);font:600 .82rem "Onest","IBM Plex Sans Arabic",system-ui,sans-serif;cursor:pointer}
+.lang button[aria-pressed="true"]{background:var(--inv);color:var(--on-inv)}
+
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:.5em;padding:.8em 1.35em;border-radius:999px;border:0;font:600 1rem var(--body);text-decoration:none;cursor:pointer;background:var(--inv);color:var(--on-inv);transition:transform .15s ease,box-shadow .15s ease}
+.btn:hover{transform:translateY(-2px);box-shadow:0 10px 24px -10px color-mix(in srgb,var(--ink) 50%,transparent)}
+.btn.y{background:var(--accent);color:var(--on-accent)}
+.btn.ghost{background:transparent;color:var(--ink);box-shadow:inset 0 0 0 1.5px var(--line)}
+.btn.sm{padding:.6em 1.1em;font-size:.92rem}
+
+/* hero */
+.hero{position:relative;overflow:hidden;margin-top:14px;border-radius:calc(var(--r) + 8px);background:var(--card);border:1px solid var(--line);display:grid;grid-template-columns:minmax(0,7fr) minmax(0,5fr);gap:32px 40px;align-items:center;padding:clamp(28px,5vw,64px)}
+.hero::before{content:"";position:absolute;inset:0;background-image:radial-gradient(var(--line) 1.2px,transparent 1.2px);background-size:22px 22px;-webkit-mask-image:radial-gradient(ellipse at 80% 20%,#000 0%,transparent 62%);mask-image:radial-gradient(ellipse at 80% 20%,#000 0%,transparent 62%)}
+.hero::after{content:"";position:absolute;width:520px;height:520px;right:-140px;top:-200px;border-radius:50%;background:var(--accent);opacity:.32;filter:blur(90px)}
+.hero > *{position:relative;z-index:1}
+.status{display:inline-flex;align-items:center;gap:.6em;padding:.4em .95em;border-radius:999px;border:1px solid var(--line);background:var(--bg);font-size:.88rem;font-weight:500}
+.status i{flex:none;width:8px;height:8px;border-radius:50%;background:var(--ok);box-shadow:0 0 0 0 var(--ok);animation:pulse 2s infinite}
+@keyframes pulse{70%{box-shadow:0 0 0 8px transparent}100%{box-shadow:0 0 0 0 transparent}}
+h1{margin-top:22px;font-family:var(--display);font-weight:800;letter-spacing:var(--tight);line-height:1.06;font-size:clamp(2rem,6.2vw,4.4rem)}
+html[lang="ar"] h1{line-height:1.3;font-weight:700}
+.rot{display:block;min-height:1.22em;white-space:nowrap}
+.rot span{display:inline-block;padding:.02em .22em .06em;margin-inline-start:-.06em;border-radius:.22em;background:var(--accent);color:var(--on-accent);transition:opacity .3s ease,transform .3s ease}
+.rot span.out{opacity:0;transform:translateY(.2em) scale(.98)}
+h1 .rest{display:block;margin-top:.12em;font-size:.62em;font-weight:600;line-height:1.15}
+html[lang="ar"] h1 .rest{line-height:1.5}
+.lead{margin:22px 0 28px;max-width:33em;font-size:1.12rem;color:var(--muted)}
+.cta{display:flex;flex-wrap:wrap;gap:10px}
+.facts{display:flex;flex-wrap:wrap;gap:8px;margin-top:28px;padding:0;list-style:none;font-size:.9rem}
+.facts li{padding:.4em .9em;border-radius:999px;background:var(--bg);border:1px solid var(--line)}
+
+/* chat mock */
+.chat{background:var(--bg);border:1px solid var(--line);border-radius:var(--r);padding:16px;box-shadow:0 30px 60px -30px color-mix(in srgb,var(--ink) 35%,transparent)}
+.chat-top{display:flex;align-items:center;gap:12px;padding:4px 4px 14px;border-bottom:1px solid var(--line)}
+.ava{flex:none;width:42px;height:42px;border-radius:50%;display:grid;place-items:center;background:var(--accent);color:var(--on-accent);font-weight:700}
+.chat-top b{display:block;font-weight:600;line-height:1.2}
+.chat-top small{color:var(--ok);font-size:.82rem}
+.msgs{display:flex;flex-direction:column;gap:8px;padding:16px 4px 6px}
+.m{max-width:86%;padding:.6em .9em;border-radius:18px;font-size:.95rem;line-height:1.4;animation:pop .5s cubic-bezier(.2,.9,.3,1.2) both}
+.m.in{align-self:flex-start;background:var(--card);border:1px solid var(--line);border-end-start-radius:6px}
+.m.me{align-self:flex-end;background:var(--inv);color:var(--on-inv);border-end-end-radius:6px}
+.m.file{display:flex;align-items:center;gap:10px;font-weight:500}
+.m.file i{flex:none;width:34px;height:34px;border-radius:10px;background:var(--accent);color:var(--on-accent);display:grid;place-items:center;font:700 .62rem var(--body);font-style:normal}
+.m:nth-child(1){animation-delay:.2s}.m:nth-child(2){animation-delay:.8s}.m:nth-child(3){animation-delay:1.4s}.m:nth-child(4){animation-delay:2s}
+@keyframes pop{from{opacity:0;transform:translateY(10px) scale(.96)}to{opacity:1;transform:none}}
+.chat-note{margin-top:10px;text-align:center;font-size:.78rem;color:var(--muted)}
+
+/* marquee (always scrolls left-to-right track, whatever the page direction) */
+.marq{margin:18px 0 0;overflow:hidden;direction:ltr;-webkit-mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent);mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent)}
+.track{display:flex;gap:10px;width:max-content;animation:slide 38s linear infinite;padding:6px 0}
+.track span{padding:.5em 1.1em;border-radius:999px;border:1px solid var(--line);background:var(--card);font-weight:500;white-space:nowrap}
+@keyframes slide{to{transform:translateX(-50%)}}
+
+/* sections */
+section{padding-top:clamp(64px,9vw,112px)}
+.eyebrow{display:inline-block;margin-bottom:14px;padding:.3em .85em;border-radius:999px;background:var(--card);border:1px solid var(--line);font-size:.82rem;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--muted)}
+html[lang="ar"] .eyebrow{letter-spacing:0}
+h2{font-family:var(--display);font-weight:800;letter-spacing:var(--tight);line-height:1.1;font-size:clamp(1.7rem,4.4vw,3rem);margin-bottom:32px;text-wrap:balance;max-width:16em}
+html[lang="ar"] h2{line-height:1.35;font-weight:700}
+h3{font-size:1.3rem;font-weight:700;line-height:1.25}
+
+/* bento */
+.bento{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:14px}
+.cell{border-radius:var(--r);padding:28px;background:var(--card);border:1px solid var(--line);display:flex;flex-direction:column;gap:14px;transition:transform .2s ease,box-shadow .2s ease}
+.cell:hover{transform:translateY(-4px);box-shadow:0 24px 40px -28px color-mix(in srgb,var(--ink) 45%,transparent)}
+.c3{grid-column:span 3}.c2{grid-column:span 2}.c4{grid-column:span 4}
+.cell.inv{background:var(--inv);color:var(--on-inv);border-color:var(--inv)}
+.cell.inv p{color:var(--on-inv-muted)}
+.cell.y{background:var(--accent);color:var(--on-accent);border-color:var(--accent)}
+.cell p{color:var(--muted)}
+.cell.y p{color:var(--on-accent);opacity:.8}
+.tags{display:flex;flex-wrap:wrap;gap:8px;margin:auto 0 0;padding:0;list-style:none;font-size:.92rem}
+.tags li{padding:.4em .9em;border-radius:999px;background:var(--bg);border:1px solid var(--line);color:var(--ink)}
+.cell.inv .tags li{background:transparent;border-color:color-mix(in srgb,var(--on-inv) 28%,transparent);color:var(--on-inv)}
+
+/* steps */
+.steps{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin:0;padding:0;list-style:none;counter-reset:s}
+.steps li{counter-increment:s;border-radius:var(--r);padding:28px;background:var(--card);border:1px solid var(--line)}
+.steps li::before{content:"0" counter(s);display:inline-grid;place-items:center;width:52px;height:52px;margin-bottom:44px;border-radius:16px;background:var(--accent);color:var(--on-accent);font:800 1rem "Unbounded",system-ui,sans-serif}
+.steps p{margin-top:8px;color:var(--muted)}
+
+/* reviews */
+.rev{border-radius:calc(var(--r) + 8px);background:var(--inv);color:var(--on-inv);padding:clamp(28px,5vw,60px);display:grid;grid-template-columns:minmax(0,1fr) auto;gap:28px 40px;align-items:center;position:relative;overflow:hidden}
+.rev::after{content:"★★★★★";position:absolute;inset-inline-end:-20px;bottom:-50px;font-size:clamp(5rem,14vw,11rem);line-height:1;letter-spacing:-.08em;color:var(--accent);opacity:.16;pointer-events:none}
+.rev > *{position:relative;z-index:1}
+.rev h2{margin-bottom:12px}
+.rev p{color:var(--on-inv-muted);max-width:32em}
+
+/* contact */
+.contact{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:14px;align-items:start}
+.ways{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.way{border-radius:var(--r);padding:22px;background:var(--card);border:1px solid var(--line);display:flex;flex-direction:column;gap:6px;min-height:168px;text-decoration:none;text-align:start;font:inherit;color:inherit;cursor:pointer;transition:transform .2s ease,border-color .2s ease}
+.way:hover{transform:translateY(-4px);border-color:var(--ink)}
+.way b{font-size:1.15rem;font-weight:700}
+.way .val{color:var(--muted);font-size:.95rem;overflow-wrap:anywhere}
+.way .act{margin-top:auto;font-weight:600;font-size:.92rem;display:flex;justify-content:space-between;align-items:center;gap:8px}
+.way .act::after{content:"→";flex:none;display:grid;place-items:center;width:34px;height:34px;border-radius:50%;background:var(--accent);color:var(--on-accent)}
+[dir="rtl"] .way .act::after{content:"←"}
+.way.copy .act::after,[dir="rtl"] .way.copy .act::after{content:"⧉"}
+.phone{grid-column:1/-1;border-radius:var(--r);padding:22px;background:var(--accent);color:var(--on-accent);font-family:"Unbounded",system-ui,sans-serif;font-weight:800;font-size:clamp(1.2rem,3.4vw,1.9rem);letter-spacing:-.02em;text-decoration:none;white-space:nowrap;text-align:center;direction:ltr}
+#copied{grid-column:1/-1;min-height:1.4em;font-size:.9rem;color:var(--muted)}
+form{border-radius:var(--r);padding:28px;background:var(--card);border:1px solid var(--line);display:grid;gap:16px}
+.pair{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+label{display:grid;gap:6px;font-size:.88rem;font-weight:500;color:var(--muted)}
+input,textarea{width:100%;font:1rem var(--body);color:var(--ink);background:var(--bg);border:1.5px solid transparent;border-radius:14px;padding:.8em .95em;transition:border-color .15s}
+input:focus,textarea:focus{outline:0;border-color:var(--ink)}
+textarea{min-height:96px;resize:vertical}
+.send{display:flex;flex-wrap:wrap;gap:10px}
+.send .btn{flex:1 1 180px}
+.hint{font-size:.84rem;color:var(--muted)}
+
+footer{margin-top:72px;padding:22px 0;border-top:1px solid var(--line);display:flex;flex-wrap:wrap;gap:8px 24px;justify-content:space-between;color:var(--muted);font-size:.9rem}
+
+.dock{display:none}
+
+@media (max-width:900px){
+  .links{display:none}
+  .hero,.contact,.rev{grid-template-columns:1fr}
+  .c2,.c3,.c4{grid-column:1/-1}
+  .steps{grid-template-columns:1fr}
+  .steps li::before{margin-bottom:20px}
+  body{padding-bottom:96px}
+  .dock{position:fixed;left:12px;right:12px;bottom:12px;z-index:30;display:flex;gap:8px;padding:8px;border-radius:999px;border:1px solid var(--line);background:color-mix(in srgb,var(--card) 82%,transparent);-webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px)}
+  .dock .btn{flex:1;padding:.75em .6em;font-size:.95rem}
+}
+@media (max-width:520px){
+  .nav{padding-inline-start:16px}.brand{font-size:.92rem}
+  .nav .btn{display:none}
+  .ways,.pair{grid-template-columns:1fr}
+  .way{min-height:0}
+  .cell,.steps li,form{padding:22px}
+}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  .m,.track,.status i{animation:none}
+  .track{flex-wrap:wrap;width:auto}
+  .track span[aria-hidden]{display:none}
+  .rot span,.btn,.cell,.way{transition:none}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="nav" id="top">
+  <a class="brand" href="#top" data-i="brand">Абдулкадер Хажжуз</a>
+  <nav class="links" aria-label="Разделы" data-ia="navLabel">
+    <a href="#uslugi" data-i="n1">Услуги</a>
+    <a href="#poryadok" data-i="n2">Как работаем</a>
+    <a href="#otzyvy" data-i="n3">Отзывы</a>
+    <a href="#kontakty" data-i="n4">Контакты</a>
+  </nav>
+  <div class="nav-end">
+    <div class="lang" role="group" aria-label="Язык / Language / اللغة">
+      <button type="button" data-lang="ru" aria-pressed="true" aria-label="Русский">RU</button>
+      <button type="button" data-lang="en" aria-pressed="false" aria-label="English">EN</button>
+      <button type="button" data-lang="ar" aria-pressed="false" aria-label="العربية">ع</button>
+    </div>
+    <a class="btn sm" href="https://t.me/Abdulkaderhz" target="_blank" rel="noopener" data-i="write">Написать</a>
+  </div>
+</header>
+
+<main>
+<div class="hero">
+  <div>
+    <span class="status"><i></i><span data-i="status">На связи в Telegram, WhatsApp и MAX</span></span>
+    <h1 id="h1" aria-label="Перевод документов на любой язык" data-ia="h1">
+      <span class="rot" aria-hidden="true"><span id="rot" lang="ru">Перевод</span></span>
+      <span class="rest" aria-hidden="true" data-i="rest">документов на любой язык</span>
+    </h1>
+    <p class="lead" data-i="lead">Меня зовут Абдулкадер. Перевожу личные и деловые документы, а также видео и аудио для бюро переводов и частных клиентов. Пришлите скан в мессенджер, и я назову срок и стоимость.</p>
+    <div class="cta">
+      <a class="btn y" href="https://t.me/Abdulkaderhz" target="_blank" rel="noopener" data-i="cta1">Написать в Telegram</a>
+      <a class="btn ghost" href="https://wa.me/79693483331" target="_blank" rel="noopener">WhatsApp</a>
+      <a class="btn ghost" href="#kontakty" data-i="cta3">Оставить заявку</a>
+    </div>
+    <ul class="facts">
+      <li data-i="f1">Любые языковые пары</li>
+      <li data-i="f2">Работаю с бюро переводов</li>
+      <li data-i="f3">Отзывы на Профи.ру</li>
+    </ul>
+  </div>
+
+  <aside class="chat" aria-label="Пример переписки" data-ia="chatNote">
+    <div class="chat-top">
+      <span class="ava" aria-hidden="true" data-i="ava">АХ</span>
+      <span><b data-i="brand">Абдулкадер Хажжуз</b><small data-i="online">в сети</small></span>
+    </div>
+    <div class="msgs">
+      <p class="m in" data-i="m1">Здравствуйте! Нужен перевод диплома на русский.</p>
+      <p class="m me" data-i="m2">Здравствуйте! Пришлите, пожалуйста, скан или фото.</p>
+      <p class="m in file"><i>PDF</i><span class="ltr">diplom.pdf</span></p>
+      <p class="m me" data-i="m4">Получил. Посмотрю и напишу срок и стоимость.</p>
+    </div>
+    <p class="chat-note" data-i="chatNote">Пример переписки</p>
+  </aside>
+</div>
+
+<div class="marq"><div class="track" id="track"></div></div>
+
+<section id="uslugi">
+  <span class="eyebrow" data-i="n1">Услуги</span>
+  <h2 data-i="sH">Что я перевожу</h2>
+  <div class="bento">
+    <article class="cell c2">
+      <h3 data-i="s1">Личные документы</h3>
+      <p data-i="s1d">Для визы, учёбы, работы и переезда.</p>
+      <ul class="tags"><li data-i="s1a">Паспорта</li><li data-i="s1b">Свидетельства</li><li data-i="s1c">Дипломы и аттестаты</li><li data-i="s1e">Справки и выписки</li></ul>
+    </article>
+    <article class="cell c2">
+      <h3 data-i="s2">Деловые документы</h3>
+      <p data-i="s2d">Для компаний и предпринимателей.</p>
+      <ul class="tags"><li data-i="s2a">Договоры</li><li data-i="s2b">Доверенности</li><li data-i="s2c">Учредительные документы</li><li data-i="s2e">Переписка</li></ul>
+    </article>
+    <article class="cell c2">
+      <h3 data-i="s5">Видео и аудио</h3>
+      <p data-i="s5d">Перевожу речь из видеороликов и аудиофайлов в текст на нужном языке.</p>
+      <ul class="tags"><li data-i="s5a">Видео</li><li data-i="s5b">Аудиозаписи</li></ul>
+    </article>
+    <article class="cell inv c4">
+      <h3 data-i="s3">Для бюро переводов</h3>
+      <p data-i="s3d">Основная часть моей работы. Берусь за заказы на подряде и подстраиваюсь под ваши требования.</p>
+      <ul class="tags"><li data-i="s3a">Оформление по вашему образцу</li><li data-i="s3b">Формат оригинала</li><li data-i="s3c">Связь в мессенджерах</li></ul>
+    </article>
+    <article class="cell y c2">
+      <h3 data-i="s4">Важно знать</h3>
+      <p data-i="s4d">Я переводчик, а не нотариус. Нотариальное заверение я не оформляю.</p>
+    </article>
+  </div>
+</section>
+
+<section id="poryadok">
+  <span class="eyebrow" data-i="n2">Как работаем</span>
+  <h2 data-i="pH">Три шага до готового перевода</h2>
+  <ol class="steps">
+    <li><h3 data-i="p1">Пришлите документ</h3><p data-i="p1d">Скан или чёткое фото в Telegram, WhatsApp, MAX или на почту. Укажите язык перевода.</p></li>
+    <li><h3 data-i="p2">Узнайте срок и цену</h3><p data-i="p2d">Посмотрю документ и отвечу, сколько времени займёт работа и сколько она стоит.</p></li>
+    <li><h3 data-i="p3">Получите перевод</h3><p data-i="p3d">Пришлю готовый файл. Если нужны правки в написании имён или названий, внесу их.</p></li>
+  </ol>
+</section>
+
+<section id="otzyvy">
+  <div class="rev">
+    <div>
+      <h2 data-i="rH">Отзывы клиентов</h2>
+      <p data-i="rD">Отзывы о моей работе собраны в профиле на Профи.ру. Сейчас я принимаю заказы напрямую, поэтому пишите в мессенджер.</p>
+    </div>
+    <a class="btn y" href="https://profi.ru/profile/KhazhzhuzAK/#reviews-tab" target="_blank" rel="noopener" data-i="rB">Читать на Профи.ру</a>
+  </div>
+</section>
+
+<section id="kontakty">
+  <span class="eyebrow" data-i="n4">Контакты</span>
+  <h2 data-i="cH">Напишите, как вам удобно</h2>
+  <div class="contact">
+    <div class="ways">
+      <a class="way" href="https://t.me/Abdulkaderhz" target="_blank" rel="noopener"><b>Telegram</b><span class="val"><span class="ltr">@Abdulkaderhz</span></span><span class="act"><span data-i="open">Открыть чат</span></span></a>
+      <a class="way" href="https://wa.me/79693483331" target="_blank" rel="noopener"><b>WhatsApp</b><span class="val"><span class="ltr">+7 969 348-33-31</span></span><span class="act"><span data-i="open">Открыть чат</span></span></a>
+      <button class="way copy" type="button" data-copy="+79693483331"><b>MAX</b><span class="val" data-i="byNum">найдите меня по номеру</span><span class="act"><span data-i="copyNum">Скопировать номер</span></span></button>
+      <button class="way copy" type="button" data-copy="hajjouz@itmo.ru"><b data-i="mail">Почта</b><span class="val"><span class="ltr">hajjouz@itmo.ru</span></span><span class="act"><span data-i="copyAddr">Скопировать адрес</span></span></button>
+      <a class="phone" href="tel:+79693483331">+7 969 348-33-31</a>
+      <p id="copied" role="status" aria-live="polite"></p>
+    </div>
+
+    <form id="req" novalidate>
+      <h3 data-i="fH">Быстрая заявка</h3>
+      <label for="doc"><span data-i="fDoc">Какой документ</span>
+        <input id="doc" type="text" placeholder="Например, диплом с приложением" data-ip="fDocP" autocomplete="off">
+      </label>
+      <div class="pair">
+        <label for="from"><span data-i="fFrom">С какого языка</span>
+          <input id="from" type="text" placeholder="английский" data-ip="fFromP" autocomplete="off">
+        </label>
+        <label for="to"><span data-i="fTo">На какой язык</span>
+          <input id="to" type="text" placeholder="русский" data-ip="fToP" autocomplete="off">
+        </label>
+      </div>
+      <label for="msg"><span data-i="fMsg">Комментарий</span>
+        <textarea id="msg" placeholder="Срок, количество страниц, пожелания" data-ip="fMsgP"></textarea>
+      </label>
+      <div class="send">
+        <a class="btn y" id="tg" href="https://t.me/Abdulkaderhz" target="_blank" rel="noopener" data-i="sendTg">Отправить в Telegram</a>
+        <a class="btn" id="wa" href="https://wa.me/79693483331" target="_blank" rel="noopener" data-i="sendWa">Отправить в WhatsApp</a>
+      </div>
+      <p class="hint" data-i="fHint">Заявка откроется в мессенджере готовым сообщением, останется нажать «Отправить». Документ прикрепите там же.</p>
+    </form>
+  </div>
+</section>
+</main>
+
+<footer>
+  <span>© 2026 <span data-i="brand">Абдулкадер Хажжуз</span>, <span data-i="role">переводчик</span></span>
+  <span class="ltr">Telegram @Abdulkaderhz · +7 969 348-33-31 · hajjouz@itmo.ru</span>
+</footer>
+</div>
+
+<div class="dock">
+  <a class="btn y" href="https://t.me/Abdulkaderhz" target="_blank" rel="noopener">Telegram</a>
+  <a class="btn" href="https://wa.me/79693483331" target="_blank" rel="noopener">WhatsApp</a>
+</div>
+
+<script>
+(function(){
+  var T={
+    ru:{
+      title:"Абдулкадер Хажжуз, переводчик",brand:"Абдулкадер Хажжуз",ava:"АХ",role:"переводчик",navLabel:"Разделы",
+      n1:"Услуги",n2:"Как работаем",n3:"Отзывы",n4:"Контакты",write:"Написать",
+      status:"На связи в Telegram, WhatsApp и MAX",h1:"Перевод документов на любой язык",rest:"документов на любой язык",
+      lead:"Меня зовут Абдулкадер. Перевожу личные и деловые документы, а также видео и аудио для бюро переводов и частных клиентов. Пришлите скан в мессенджер, и я назову срок и стоимость.",
+      cta1:"Написать в Telegram",cta3:"Оставить заявку",
+      f1:"Любые языковые пары",f2:"Работаю с бюро переводов",f3:"Отзывы на Профи.ру",
+      online:"в сети",m1:"Здравствуйте! Нужен перевод диплома на русский.",m2:"Здравствуйте! Пришлите, пожалуйста, скан или фото.",m4:"Получил. Посмотрю и напишу срок и стоимость.",chatNote:"Пример переписки",
+      langs:["Английский","Арабский","Китайский","Французский","Немецкий","Испанский","Турецкий","Персидский","Итальянский","и другие языки"],
+      sH:"Что я перевожу",
+      s1:"Личные документы",s1d:"Для визы, учёбы, работы и переезда.",s1a:"Паспорта",s1b:"Свидетельства",s1c:"Дипломы и аттестаты",s1e:"Справки и выписки",
+      s2:"Деловые документы",s2d:"Для компаний и предпринимателей.",s2a:"Договоры",s2b:"Доверенности",s2c:"Учредительные документы",s2e:"Переписка",
+      s5:"Видео и аудио",s5d:"Перевожу речь из видеороликов и аудиофайлов в текст на нужном языке.",s5a:"Видео",s5b:"Аудиозаписи",
+      s3:"Для бюро переводов",s3d:"Основная часть моей работы. Берусь за заказы на подряде и подстраиваюсь под ваши требования.",s3a:"Оформление по вашему образцу",s3b:"Формат оригинала",s3c:"Связь в мессенджерах",
+      s4:"Важно знать",s4d:"Я переводчик, а не нотариус. Нотариальное заверение я не оформляю.",
+      pH:"Три шага до готового перевода",
+      p1:"Пришлите документ",p1d:"Скан или чёткое фото в Telegram, WhatsApp, MAX или на почту. Укажите язык перевода.",
+      p2:"Узнайте срок и цену",p2d:"Посмотрю документ и отвечу, сколько времени займёт работа и сколько она стоит.",
+      p3:"Получите перевод",p3d:"Пришлю готовый файл. Если нужны правки в написании имён или названий, внесу их.",
+      rH:"Отзывы клиентов",rD:"Отзывы о моей работе собраны в профиле на Профи.ру. Сейчас я принимаю заказы напрямую, поэтому пишите в мессенджер.",rB:"Читать на Профи.ру",
+      cH:"Напишите, как вам удобно",open:"Открыть чат",byNum:"найдите меня по номеру",copyNum:"Скопировать номер",mail:"Почта",copyAddr:"Скопировать адрес",
+      fH:"Быстрая заявка",fDoc:"Какой документ",fDocP:"Например, диплом с приложением",fFrom:"С какого языка",fFromP:"английский",fTo:"На какой язык",fToP:"русский",fMsg:"Комментарий",fMsgP:"Срок, количество страниц, пожелания",
+      sendTg:"Отправить в Telegram",sendWa:"Отправить в WhatsApp",
+      fHint:"Заявка откроется в мессенджере готовым сообщением, останется нажать «Отправить». Документ прикрепите там же.",
+      copied:"Скопировано: ",copyFail:"Не получилось скопировать. Выделите вручную: ",
+      msg:function(d,a,b,c){var t="Здравствуйте! Нужен перевод документа.";if(d)t+="\nДокумент: "+d;if(a||b)t+="\nЯзыки: "+(a||"?")+" → "+(b||"?");if(c)t+="\n"+c;return t;}
+    },
+    en:{
+      title:"Abdulkader Hajjouz, translator",brand:"Abdulkader Hajjouz",ava:"AH",role:"translator",navLabel:"Sections",
+      n1:"Services",n2:"How it works",n3:"Reviews",n4:"Contact",write:"Message me",
+      status:"Available on Telegram, WhatsApp and MAX",h1:"Translation of documents into any language",rest:"of documents into any language",
+      lead:"My name is Abdulkader. I translate personal and business documents, as well as video and audio, for translation agencies and private clients. Send a scan in a messenger and I will tell you the turnaround and the price.",
+      cta1:"Message on Telegram",cta3:"Send a request",
+      f1:"Any language pair",f2:"Working with translation agencies",f3:"Reviews on Profi.ru",
+      online:"online",m1:"Hello! I need my diploma translated into Russian.",m2:"Hello! Please send a scan or a photo.",m4:"Got it. I will take a look and send you the turnaround and price.",chatNote:"Sample conversation",
+      langs:["English","Arabic","Russian","Chinese","French","German","Spanish","Turkish","Persian","and other languages"],
+      sH:"What I translate",
+      s1:"Personal documents",s1d:"For visas, study, work and relocation.",s1a:"Passports",s1b:"Civil status certificates",s1c:"Diplomas and school certificates",s1e:"Statements and extracts",
+      s2:"Business documents",s2d:"For companies and entrepreneurs.",s2a:"Contracts",s2b:"Powers of attorney",s2c:"Incorporation documents",s2e:"Correspondence",
+      s5:"Video and audio",s5d:"I translate speech from video and audio files into text in the language you need.",s5a:"Video",s5b:"Audio recordings",
+      s3:"For translation agencies",s3d:"The main part of my work. I take jobs as a contractor and follow your requirements.",s3a:"Formatting to your template",s3b:"Layout of the original",s3c:"Reachable in messengers",
+      s4:"Good to know",s4d:"I am a translator, not a notary. I do not provide notarial certification.",
+      pH:"Three steps to a finished translation",
+      p1:"Send the document",p1d:"A scan or a clear photo via Telegram, WhatsApp, MAX or email. Tell me the target language.",
+      p2:"Get the turnaround and price",p2d:"I look at the document and tell you how long the work takes and what it costs.",
+      p3:"Receive the translation",p3d:"I send you the finished file. If the spelling of names or titles needs changes, I make them.",
+      rH:"Client reviews",rD:"Reviews of my work are collected on my Profi.ru profile. I now take orders directly, so message me in a messenger.",rB:"Read on Profi.ru",
+      cH:"Message me the way you prefer",open:"Open chat",byNum:"find me by phone number",copyNum:"Copy number",mail:"Email",copyAddr:"Copy address",
+      fH:"Quick request",fDoc:"Which document",fDocP:"For example, a diploma with transcript",fFrom:"From which language",fFromP:"English",fTo:"Into which language",fToP:"Russian",fMsg:"Comment",fMsgP:"Deadline, number of pages, any wishes",
+      sendTg:"Send via Telegram",sendWa:"Send via WhatsApp",
+      fHint:"Your request opens in the messenger as a ready message; you only need to press Send. Attach the document there.",
+      copied:"Copied: ",copyFail:"Could not copy. Select it manually: ",
+      msg:function(d,a,b,c){var t="Hello! I need a document translated.";if(d)t+="\nDocument: "+d;if(a||b)t+="\nLanguages: "+(a||"?")+" → "+(b||"?");if(c)t+="\n"+c;return t;}
+    },
+    ar:{
+      title:"عبد القادر حجوز، مترجم",brand:"عبد القادر حجوز",ava:"ع",role:"مترجم",navLabel:"الأقسام",
+      n1:"الخدمات",n2:"طريقة العمل",n3:"التقييمات",n4:"تواصل",write:"راسلني",
+      status:"متاح على تلغرام وواتساب و MAX",h1:"ترجمة الوثائق إلى أي لغة",rest:"الوثائق إلى أي لغة",
+      lead:"اسمي عبد القادر. أترجم الوثائق الشخصية والتجارية، وكذلك الفيديو والملفات الصوتية، لمكاتب الترجمة والأفراد. أرسل صورة الوثيقة عبر أحد تطبيقات المراسلة وسأخبرك بالمدة والتكلفة.",
+      cta1:"راسلني على تلغرام",cta3:"أرسل طلباً",
+      f1:"جميع اللغات",f2:"أعمل مع مكاتب الترجمة",f3:"تقييمات على Profi.ru",
+      online:"متصل",m1:"مرحباً! أحتاج ترجمة شهادة جامعية إلى الروسية.",m2:"أهلاً! أرسل من فضلك نسخة ممسوحة أو صورة.",m4:"وصلت. سأطّلع عليها وأكتب لك المدة والتكلفة.",chatNote:"مثال على محادثة",
+      langs:["الإنجليزية","العربية","الروسية","الصينية","الفرنسية","الألمانية","الإسبانية","التركية","الفارسية","ولغات أخرى"],
+      sH:"ماذا أترجم",
+      s1:"وثائق شخصية",s1d:"للتأشيرة والدراسة والعمل والانتقال.",s1a:"جوازات السفر",s1b:"شهادات الأحوال المدنية",s1c:"الشهادات الدراسية",s1e:"الإفادات والكشوف",
+      s2:"وثائق تجارية",s2d:"للشركات ورواد الأعمال.",s2a:"العقود",s2b:"الوكالات",s2c:"الوثائق التأسيسية",s2e:"المراسلات",
+      s5:"فيديو وصوت",s5d:"أترجم الكلام في مقاطع الفيديو والملفات الصوتية إلى نص باللغة المطلوبة.",s5a:"مقاطع الفيديو",s5b:"الملفات الصوتية",
+      s3:"لمكاتب الترجمة",s3d:"الجزء الأساسي من عملي. أستلم الطلبات بالتعاقد وألتزم بمتطلباتكم.",s3a:"التنسيق حسب نموذجكم",s3b:"مطابقة شكل الأصل",s3c:"تواصل عبر تطبيقات المراسلة",
+      s4:"معلومة مهمة",s4d:"أنا مترجم ولست كاتب عدل، ولا أقدّم خدمة التصديق لدى كاتب العدل.",
+      pH:"ثلاث خطوات حتى الترجمة الجاهزة",
+      p1:"أرسل الوثيقة",p1d:"نسخة ممسوحة أو صورة واضحة عبر تلغرام أو واتساب أو MAX أو البريد، واذكر لغة الترجمة.",
+      p2:"اعرف المدة والسعر",p2d:"أطّلع على الوثيقة وأخبرك كم يستغرق العمل وكم يكلّف.",
+      p3:"استلم الترجمة",p3d:"أرسل لك الملف جاهزاً. وإن لزم تعديل في كتابة الأسماء أو المسميات أجريه.",
+      rH:"آراء العملاء",rD:"تقييمات عملي موجودة في صفحتي على Profi.ru. أستقبل الطلبات الآن مباشرة، فراسلني عبر تطبيقات المراسلة.",rB:"اقرأ على Profi.ru",
+      cH:"راسلني بالطريقة التي تناسبك",open:"افتح المحادثة",byNum:"ابحث عني برقم الهاتف",copyNum:"انسخ الرقم",mail:"البريد",copyAddr:"انسخ العنوان",
+      fH:"طلب سريع",fDoc:"ما الوثيقة",fDocP:"مثلاً: شهادة جامعية مع كشف العلامات",fFrom:"من أي لغة",fFromP:"الإنجليزية",fTo:"إلى أي لغة",fToP:"الروسية",fMsg:"ملاحظات",fMsgP:"المدة، عدد الصفحات، أي طلبات",
+      sendTg:"أرسل عبر تلغرام",sendWa:"أرسل عبر واتساب",
+      fHint:"سيُفتح تطبيق المراسلة برسالة جاهزة ويبقى أن تضغط «إرسال». أرفق الوثيقة هناك.",
+      copied:"تم النسخ: ",copyFail:"تعذّر النسخ. حدّد النص يدوياً: ",
+      msg:function(d,a,b,c){var t="مرحباً! أحتاج ترجمة وثيقة.";if(d)t+="\nالوثيقة: "+d;if(a||b)t+="\nاللغات: من "+(a||"؟")+" إلى "+(b||"؟");if(c)t+="\n"+c;return t;}
+    }
+  };
+  // Hero word: starts in the page language, then cycles through others.
+  var W={
+    ru:[["Перевод","ru"],["Translation","en"],["翻译","zh"],["Traduction","fr"],["Übersetzung","de"],["Traducción","es"],["Çeviri","tr"],["번역","ko"]],
+    en:[["Translation","en"],["Перевод","ru"],["翻译","zh"],["Traduction","fr"],["Übersetzung","de"],["Traducción","es"],["Çeviri","tr"],["번역","ko"]],
+    ar:[["ترجمة","ar"],["Translation","en"],["Перевод","ru"],["翻译","zh"],["Traduction","fr"],["Übersetzung","de"],["Traducción","es"],["Çeviri","tr"]]
+  };
+  var lang="ru",i=0,rot=document.getElementById("rot"),root=document.documentElement;
+  function showWord(){var w=W[lang][i];rot.textContent=w[0];rot.lang=w[1];}
+
+  function setLang(l){
+    if(!T[l])l="ru";
+    lang=l;var t=T[l];
+    root.lang=l;root.dir=l==="ar"?"rtl":"ltr";
+    document.title=t.title;
+    document.querySelectorAll("[data-i]").forEach(function(e){var v=t[e.dataset.i];if(v!=null)e.textContent=v;});
+    document.querySelectorAll("[data-ip]").forEach(function(e){e.placeholder=t[e.dataset.ip];});
+    document.querySelectorAll("[data-ia]").forEach(function(e){e.setAttribute("aria-label",t[e.dataset.ia]);});
+    document.querySelectorAll("[data-lang]").forEach(function(b){b.setAttribute("aria-pressed",String(b.dataset.lang===l));});
+    var tr=document.getElementById("track");tr.textContent="";
+    [false,true].forEach(function(dup){
+      t.langs.forEach(function(n){var s=document.createElement("span");s.textContent=n;s.dir=l==="ar"?"rtl":"ltr";if(dup)s.setAttribute("aria-hidden","true");tr.appendChild(s);});
+    });
+    i=0;showWord();
+    document.getElementById("copied").textContent="";
+    sync();
+    try{localStorage.setItem("site-lang",l);}catch(e){}
+  }
+  document.querySelectorAll("[data-lang]").forEach(function(b){
+    b.addEventListener("click",function(){setLang(b.dataset.lang);});
+  });
+
+  var still=window.matchMedia&&window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if(!still){
+    setInterval(function(){
+      rot.classList.add("out");
+      setTimeout(function(){i=(i+1)%W[lang].length;showWord();rot.classList.remove("out");},300);
+    },2400);
+  }
+
+  var status=document.getElementById("copied");
+  document.querySelectorAll("[data-copy]").forEach(function(b){
+    b.addEventListener("click",function(){
+      var v=b.dataset.copy;
+      function fail(){status.textContent=T[lang].copyFail+v;}
+      try{navigator.clipboard.writeText(v).then(function(){status.textContent=T[lang].copied+v;},fail);}catch(e){fail();}
+    });
+  });
+
+  // Inside an embedded viewer tel: links are blocked, so copy the number there;
+  // on the site's own domain the link dials as usual.
+  var embedded=false;try{embedded=window.self!==window.top;}catch(e){embedded=true;}
+  document.querySelector(".phone").addEventListener("click",function(e){
+    if(!embedded)return;
+    e.preventDefault();
+    var v="+79693483331";
+    function fail(){status.textContent=T[lang].copyFail+v;}
+    try{navigator.clipboard.writeText(v).then(function(){status.textContent=T[lang].copied+v;},fail);}catch(err){fail();}
+  });
+
+  var f=document.getElementById("req"),wa=document.getElementById("wa"),tg=document.getElementById("tg");
+  function val(id){return document.getElementById(id).value.trim();}
+  function sync(){
+    var q=encodeURIComponent(T[lang].msg(val("doc"),val("from"),val("to"),val("msg")));
+    wa.href="https://wa.me/79693483331?text="+q;
+    tg.href="https://t.me/Abdulkaderhz?text="+q;
+  }
+  f.addEventListener("input",sync);
+  f.addEventListener("submit",function(e){e.preventDefault();});
+
+  var saved=null;
+  try{saved=localStorage.getItem("site-lang");}catch(e){}
+  setLang(saved||"ru");
+})();
+</script>
+</body>
+</html>
